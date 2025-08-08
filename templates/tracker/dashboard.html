@@ -1,0 +1,57 @@
+{% extends "tracker/base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2>Dashboard</h2>
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">Total Income</div>
+            <div class="card-body">
+                <h5 class="card-title">${{ total_income }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-header">Total Expenses</div>
+            <div class="card-body">
+                <h5 class="card-title">${{ total_expenses }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Balance</div>
+            <div class="card-body">
+                <h5 class="card-title">${{ balance }}</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if exceeded_budgets %}
+<div class="alert alert-warning">
+    <h4>Budget Alerts</h4>
+    <p>You have exceeded your budget in the following categories:</p>
+    <ul>
+        {% for budget in exceeded_budgets %}
+        <li>
+            {{ budget.category }}: Budget ${{ budget.budget }}, Spent ${{ budget.spent }} 
+            (Over by ${{ budget.over }})
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<div class="card mt-4">
+    <div class="card-header">
+        Quick Actions
+    </div>
+    <div class="card-body">
+        <a href="{% url 'add_transaction' %}" class="btn btn-primary me-2">Add Transaction</a>
+        <a href="{% url 'budget_goals' %}" class="btn btn-secondary">Set Budget Goal</a>
+    </div>
+</div>
+{% endblock %}

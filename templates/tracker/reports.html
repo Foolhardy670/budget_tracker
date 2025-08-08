@@ -1,0 +1,67 @@
+{% extends "tracker/base.html" %}
+
+{% block content %}
+<h2>Reports</h2>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Spending by Category</h4>
+            </div>
+            <div class="card-body">
+                {% if expenses_by_category %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for expense in expenses_by_category %}
+                        <tr>
+                            <td>{{ expense.get_category_display }}</td>
+                            <td>${{ expense.total|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>No expense data available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>Monthly Spending</h4>
+            </div>
+            <div class="card-body">
+                {% if monthly_spending %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for month in monthly_spending %}
+                        <tr>
+                            <td>{{ month.month|date:"F Y" }}</td>
+                            <td>${{ month.total|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>No monthly spending data available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
